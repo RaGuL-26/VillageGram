@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center py-5">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1><a href="{% url "myprofile" post.user.slug %}" class='text-dark'>@{{post.user.username}}</a></h1>
+                            {% if post.image %}
+                                <img src="{{ post.image.url }}" class="img-fluid mb-3 rounded" alt="Post image" style="max-width: 100%; max-height: 400px; object-fit: cover;">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 my-3">
+                            <p class="card-text text-dark">{{ post.content }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="{% url 'likepost' slug=post.user.slug post_id=post.id %}">
+                                <i class="fa-solid fa-heart fa-lg">&nbsp; {{ post.likes.count }}</i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-light">
+                    <small class="text-muted">Posted on {{ post.created_at|date:"F d, Y" }}</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <div class="comment-section" style="max-height: 400px; overflow-y: auto;">
+                        <div class="comments-scroll">
+                            {% for comment in comments %}
+                                {% include 'comments.html' with comment=comment %}
+                            {% empty %}
+                                <p class='text-dark'>No comments yet.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="mt-4">
+
+                        <form method="post" action="{% url 'postdetail' slug=post.user.slug post_id=post.id %}">
+                            {% csrf_token %}
+                            <div class="form-row align-items-center">
+                                <div class="col">
+                                    {{ comment_form.content }}
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary">Post Comment</button>
+                                </div>
+                            </div>
+                            {{ comment_form.parent }} <!-- Hidden input for parent field -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include your script here -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".reply").forEach(function(button) {
+            button.addEventListener("click", function(event) {
+                event.preventDefault();
+                const commentId = this.getAttribute("data-comment-id");
+                const form = document.getElementById(`reply-form-${commentId}`);
+                if (form.style.display === "none") {
+                    form.style.display = "block";
+                } else {
+                    form.style.display = "none";
+                }
+            });
+        });
+    });
+</script>
+<style>
+    textarea {
+        height: 50px; /* Adjust the height as needed */
+    }
+</style>
+
+{% endblock content %}

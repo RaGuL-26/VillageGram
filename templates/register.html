@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% load socialaccount %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form method="post" class="mt-5" action="{% url 'register' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_username" class="form-label">Username</label>
+                    <input type="text" name="username" id="id_username" class="form-control" value="{{ form.username.value }}">
+                </div>
+                <div class="mb-3">
+                    <label for="id_email" class="form-label">Email</label>
+                    <input type="text" name="email" id="id_email" class="form-control" value="{{ form.email.value }}">
+                </div>
+                <div class="mb-3">
+                    <label for="id_password" class="form-label">Password</label>
+                    <input type="password" name="password" id="id_password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-dark">Register</button>
+            </form>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="text-center">
+                <p>or</p>
+                <a href="{% provider_login_url 'google' %}?next=/" class="btn btn-outline-success btn-sm d-flex align-items-center justify-content-center">
+                    <i class="fa-brands fa-google me-2"></i> Login with Google
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

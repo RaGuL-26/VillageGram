@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Welcome Section -->
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Welcome to Villagegram!</h1>
+        <p class="lead">A social platform to connect with your village community.</p>
+        <hr class="my-4">
+        {% if user.is_authenticated %}
+        <h3>Go And Create Your Profile .</h3>
+        <a class="btn btn-secondary btn-lg" href="{% url 'myprofile' user.slug %}" role="button">My Profile</a>
+        {% else %}
+        <p>Join us today and start sharing your moments with your friends and family.</p>
+        <a class="btn btn-secondary btn-lg" href="{% url 'register' %}" role="button">Join Now</a>
+        {% endif %}
+    </div>
+
+    <!-- Features Section -->
+    <div class="row text-center mt-5">
+        <div class="col-md-4">
+            <i class="fa fa-users fa-3x mb-3" aria-hidden="true"></i>
+            <h3>Connect</h3>
+            <p>Find and connect with people in your village.</p>
+        </div>
+        <div class="col-md-4">
+            <i class="fa fa-share-alt fa-3x mb-3" aria-hidden="true"></i>
+            <h3>Share</h3>
+            <p>Share your stories, photos, and moments.</p>
+        </div>
+        <div class="col-md-4">
+            <i class="fa fa-comments fa-3x mb-3" aria-hidden="true"></i>
+            <h3>Engage</h3>
+            <p>Comment, like, and interact with posts.</p>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="mt-5">
+        <h2 class="text-center">About Villagegram</h2><br>
+        <p class="text-center">Villagegram is a unique social platform designed to connect individuals within a village. It aims to foster stronger community ties and make sharing special moments with friends and family easier than ever.</p><br>
+        <p class="text-center">Whether you want to share your latest photos, write about your experiences, or engage with your neighbors' posts, Villagegram provides a space to do all that and more.</p>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-5">
+
+        {% if user.is_authenticated %}
+        <h2>Explore The Community?</h2>
+        <a class="btn btn-secondary btn-lg" href="{% url 'explore' %}" role="button">Explore Now</a>
+        {% else %}
+        <h2>Ready to join the community?</h2>
+        <a class="btn btn-secondary btn-lg" href="{% url 'register' %}" role="button">Sign Up Now</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

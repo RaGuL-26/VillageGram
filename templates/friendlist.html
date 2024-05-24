@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center py-5">
+        <div class="col-md-12 text-center">
+            <h2>{{ user.username }}'s Friends</h2>
+            <div class="row">
+                {% for friendship in friends %}
+                    <div class="col-md-4 mb-4 text-center">
+                        <a href="{% url 'myprofile' friendship.friend.slug %}">
+                            {% if friendship.friend.imageofusers.profile_pic %}
+                                <img src="{{ friendship.friend.imageofusers.profile_pic.url }}" alt="Profile Picture" class="img-thumbnail rounded-circle" style="width: 100px; height: 100px;">
+                            {% else %}
+                                <img src="https://imgs.search.brave.com/uIZdmq30vNaMV6RP6_roOCL3EAZF_m9ZkIwCBl3aXPk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9lbmNy/eXB0ZWQtdGJuMC5n/c3RhdGljLmNvbS9p/bWFnZXM_cT10Ym46/QU5kOUdjUkVkT25f/QmQ2MVhvaDY5Y0d6/QV9aODZCa0VvbF84/M2hnU1p3JnVzcXA9/Q0FV" alt="Profile Picture" class="img-thumbnail rounded-circle" style="width: 100px; height: 100px;">
+                            {% endif %}
+                            <h3>@{{ friendship.friend.username }}</h3>
+                        </a>
+                    </div>
+                {% empty %}
+                    <div class="col-12">
+                        <p>{{ user.username }} has no friends yet.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

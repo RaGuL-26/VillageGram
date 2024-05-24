@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4 text-left">User Profiles</h1>
+
+    <!-- Search Form -->
+    <div class="row justify-content-end mb-4">
+        <div class="col-md-4">
+            <form action="" method="GET" style="width: 250px;">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="q"  placeholder="Search by username">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" type="submit" style="width: 70px;">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        {% for user in user_profiles %}
+            <div class="col-md-8">
+                <!-- User Card -->
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                                {% if user.imageofusers.profile_pic %}
+                                    <img src="{{ user.imageofusers.profile_pic.url }}" alt="Profile Picture" class="img-thumbnail rounded-circle mb-3" style="width: 150px; height: 150px;">
+                                {% else %}
+                                    <img src="https://imgs.search.brave.com/uIZdmq30vNaMV6RP6_roOCL3EAZF_m9ZkIwCBl3aXPk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9lbmNy/eXB0ZWQtdGJuMC5n/c3RhdGljLmNvbS9p/bWFnZXM_cT10Ym46/QU5kOUdjUkVkT25f/QmQ2MVhvaDY5Y0d6/QV9aODZCa0VvbF84/M2hnU1p3JnVzcXA9/Q0FV" alt="Profile Picture" class="img-thumbnail rounded-circle mb-3" style="width: 150px; height: 150px;">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <a href="{% url 'myprofile' user.slug %}" class="text-decoration-none">
+                                    <h5 class="card-title text-dark">{{ user.username }}</h5>
+                                </a>
+                                {% if user.aboutofusers.about %}
+                                    <p style="white-space: pre-wrap;" class="card-text text-dark">{{ user.aboutofusers.about }}</p>
+                                {% else %}
+                                    <p class='text-dark'>User Has No About</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container py-3">
+    
+    <form method="post" action="{% url "editdp" user.slug %}" enctype="multipart/form-data" class="w-75 mx-auto">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_profile_pic" class="form-label">Profile Picture:</label>
+            <input type="file" name="profile_pic" accept="image/*" class="form-control" id="id_profile_pic">
+        </div>
+        <button type="submit" class="btn btn-dark">Save</button>
+    </form>
+
+    <div class="mt-3"></div>
+    
+    <form method="post" action="{% url "removedp" user.slug %}" enctype="multipart/form-data" class="w-75 mx-auto">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-dark">Delete</button>
+    </form>
+</div>
+{% endblock %}

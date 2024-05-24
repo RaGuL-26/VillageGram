@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <form method="post" class="mt-4" action='{% url "updateabout" user.slug %}'>
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_about" class="form-label">{{ form.about.label }}</label>
+            <textarea name="about" id="id_about" class="form-control" rows="4" cols="40">{{ form.about.value|safe }}</textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

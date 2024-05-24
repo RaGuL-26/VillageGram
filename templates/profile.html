@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center py-5">
+        <!-- Profile Picture Section -->
+        <div class="col-md-6 text-center">
+            {% if user.imageofusers.profile_pic %}
+                <img src="{{ user.imageofusers.profile_pic.url }}" alt="Profile Picture" class="img-thumbnail rounded-circle" style="width: 200px; height: 200px;">
+            {% else %}
+                <img src="https://imgs.search.brave.com/uIZdmq30vNaMV6RP6_roOCL3EAZF_m9ZkIwCBl3aXPk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9lbmNy/eXB0ZWQtdGJuMC5n/c3RhdGljLmNvbS9p/bWFnZXM_cT10Ym46/QU5kOUdjUkVkT25f/QmQ2MVhvaDY5Y0d6/QV9aODZCa0VvbF84/M2hnU1p3JnVzcXA9/Q0FV" alt="Profile Picture" class="img-thumbnail rounded-circle" style="width: 200px; height: 200px;">
+            {% endif %}
+            {% if user == request.user %}
+                <div class="text-center mt-3">
+                    <a href="{% url 'editdp' user.slug %}" title="Edit Profile Picture">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+        <!-- Profile Details Section -->
+        <div class="col-md-6">
+            <div>
+                <h2>@{{ user.username }}</h2>
+                <p style="white-space: pre-wrap;">{{ user.aboutofusers.about }}</p>
+
+                {% if user != request.user %}
+                    {% if is_friend %}
+                        <h2>User is a friend</h2>
+                        <a href="{% url 'removefriend' user.id %}" class="btn btn-danger">Remove Friend</a>
+                    {% else %}
+                        <h1>User is not a friend</h1>
+                        <a href="{% url 'addfriend' user.id %}" class="btn btn-primary">Add Friend</a>
+                    {% endif %}
+                {% endif %}
+
+                {% if user == request.user %}
+                    <div class="text-center mt-3">
+                        <a href="{% url 'updateabout' user.slug %}" title="Edit About">
+                            <i class="fa-solid fa-clipboard"></i>
+                        </a>
+                    </div>
+                {% endif %}
+
+                {% if user == request.user %}
+                    <div class="text-center mt-3">
+                        <a href="{% url 'friendlist' user.slug %}" class="btn btn-info">My Friends</a>
+                    </div>
+                {% else %}
+                    <div class="text-center mt-3">
+                        <a href="{% url 'friendlist' user.slug %}" class="btn btn-info">{{ user.username }}'s Friends</a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+    <!-- User Posts Section -->
+    <div class="row justify-content-center py-5">
+        <div class="col-12">
+            <h3 class="text-center">Posts</h3>
+            {% if user == request.user %}
+                <a href="{% url 'addpost' user.slug %}" class="btn btn-secondary">Create a Post</a>
+            {% endif %}
+            <div class="row">
+                {% for post in posts %}
+                    <div class="col-md-4 mb-4 text-center">
+                        {% if post.image %}
+                            <a href="{% url 'postdetail' user.slug post.id %}">
+                                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-thumbnail shadow" style="width: 100%; height: auto; max-height: 400px; object-fit: cover; border-radius: 10px;">
+                            </a>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <div class="text-center w-100">
+                        <p>No posts to show.</p>
+                        {% if user == request.user %}
+                            <a href="{% url 'addpost' user.slug %}" class="btn btn-secondary">Create a Post</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

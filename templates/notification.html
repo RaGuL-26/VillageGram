@@ -1,0 +1,23 @@
+<!-- notifications.html -->
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center py-5">
+        <div class="col-md-8">
+            <h2>Notifications</h2>
+            <div class="list-group">
+                {% for notification in notifications %}
+                <div class="list-group-item list-group-item-action {% if not notification.is_read %}list-group-item-info{% endif %}">
+                    <p>
+                        
+                       <a href="{% url "myprofile" notification.sender.slug %}"> 
+                        {{ notification.sender.username }}</a>Added You As A Friend.</p>
+                    <small class="text-muted">{{ notification.timestamp }}</small>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
