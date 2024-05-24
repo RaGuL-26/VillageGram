@@ -26,10 +26,8 @@
 
                 {% if user != request.user %}
                     {% if is_friend %}
-                        <h2>User is a friend</h2>
                         <a href="{% url 'removefriend' user.id %}" class="btn btn-danger">Remove Friend</a>
                     {% else %}
-                        <h1>User is not a friend</h1>
                         <a href="{% url 'addfriend' user.id %}" class="btn btn-primary">Add Friend</a>
                     {% endif %}
                 {% endif %}
