@@ -6,7 +6,7 @@ from .forms import *
 from django.views.decorators.http import require_POST
 
 
-
+@login_required(login_url='login')
 def profile_page(request, slug):
     user = get_object_or_404(User, slug=slug)
     posts = Post.objects.filter(user=user).order_by('-created_at')
@@ -22,6 +22,7 @@ def profile_page(request, slug):
     }
     return render(request, 'profile.html', context)
 
+@login_required(login_url='login')
 def edit_image(request, slug):
     user = get_object_or_404(User, slug=slug)
     user_data, created = ImageOfUsers.objects.get_or_create(user=user)
@@ -35,6 +36,7 @@ def edit_image(request, slug):
     context = {'user': user, 'user_data': user_data}
     return render(request, 'editprofile.html', context)
 
+@login_required(login_url='login')
 def remove_pic(request, slug):
     user = get_object_or_404(User, slug=slug)
     user_data, created = ImageOfUsers.objects.get_or_create(user=user)
@@ -47,7 +49,7 @@ def remove_pic(request, slug):
     context = {'user': user, 'user_data': user_data}
     return render(request, 'editprofile.html', context)
 
-
+@login_required(login_url='login')
 def update_about(request, slug):
     user = get_object_or_404(User, slug=slug)
     user_about, created = AboutOfUsers.objects.get_or_create(user=user)
@@ -63,7 +65,7 @@ def update_about(request, slug):
     context = {'form': form, 'user': user}
     return render(request, 'profileabout.html', context)
 
-
+@login_required(login_url='login')
 def create_post(request,slug):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
@@ -78,7 +80,7 @@ def create_post(request,slug):
 
 
 
-
+@login_required(login_url='login')
 def like_post(request,slug, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.user in post.likes.all():
@@ -87,7 +89,7 @@ def like_post(request,slug, post_id):
         post.likes.add(request.user)
     return redirect('postdetail', slug=slug, post_id=post_id)
 
-
+@login_required(login_url='login')
 def post_detail(request, slug, post_id):
     post = get_object_or_404(Post, id=post_id)
     comments = post.comments.filter(parent__isnull=True) 
@@ -111,12 +113,13 @@ def post_detail(request, slug, post_id):
     }
     return render(request, 'postdetail.html', context)
 
-
+@login_required(login_url='login')
 def remove_friend(request, user_id):
     friend = get_object_or_404(User, id=user_id)
     Friendship.objects.filter(user=request.user, friend=friend).delete()
     return redirect('myprofile', slug=request.user.slug)
 
+@login_required(login_url='login')
 def friend_list(request, slug):
     user = get_object_or_404(User, slug=slug)
     friends = Friendship.objects.filter(user=user).select_related('friend')
@@ -127,6 +130,7 @@ def friend_list(request, slug):
     }
     return render(request, 'friendlist.html', context)
 
+@login_required(login_url='login')
 def notification_list(request):
     notifications = Notification.objects.filter(recipient=request.user, is_read=False)
     for notification in notifications:
@@ -134,7 +138,7 @@ def notification_list(request):
         notification.save()
     return render(request, 'notification.html', {'notifications': notifications})
 
-
+@login_required(login_url='login')
 def add_friend(request, user_id):
     friend = get_object_or_404(User, id=user_id)
     

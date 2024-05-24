@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from .models import *
 from userssection.models import *
+from django.contrib.auth.decorators import login_required
 
 
 def main_page(request):
@@ -51,6 +52,7 @@ def logout_page(request):
 #     user_profiles = User.objects.all()
 #     return render(request,'explore.html',{'user_profiles':user_profiles})
 
+@login_required(login_url='login')
 def explore_page(request):
     query = request.GET.get('q')
     if query:
