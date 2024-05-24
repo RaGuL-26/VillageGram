@@ -75,10 +75,11 @@ TEMPLATES = [
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://postgres:hHcevCZuBWxWvmDxhKaqoLJfWncSoYki@monorail.proxy.rlwy.net:59264/railway',
+        default='postgresql://jobmatrix_owner:0wD5tnmPdBXF@ep-small-cloud-a1wby35h.ap-southeast-1.aws.neon.tech/Villagegram?sslmode=require',
         conn_max_age=600
     )
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
