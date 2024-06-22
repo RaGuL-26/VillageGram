@@ -104,7 +104,7 @@ WSGI_APPLICATION = 'villagegram.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://jobmatrix_owner:0wD5tnmPdBXF@ep-small-cloud-a1wby35h.ap-southeast-1.aws.neon.tech/Villagegram?sslmode=require',
+        default='abcd',
         conn_max_age=600
     )
 }
